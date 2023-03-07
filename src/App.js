@@ -1,18 +1,20 @@
 import './styles/App.css'
-import Profile from './components/Profile.js'
+import EmployeeList from './components/Employees'
 
 const App = () => {
 
-  const person = {
-        id: 1,
-        firstname: "John",
-        lastname: "Doe",
-        job: "Developer"
-  }
+  const employees= [
+    { id: 1, firstname: "John", lastname: "Doe", job: "Developer"},
+    { id: 2, firstname: "Anna", lastname: "Tiger", job: "Developer"},
+    { id: 3, firstname: "Jim", lastname: "Lion", job: "UX/UI"}
+  ]
 
   return(
       <div>
-        <Profile person={ person } />
+        <h1>Employees</h1>
+        <ul>
+           <EmployeeList employees={ employees } /> 
+        </ul>
       </div>
   )
 }
