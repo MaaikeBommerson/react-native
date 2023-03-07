@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+
+  const hour = new Date().getHours()
+  const color = hour === 14 ? "#F0F" : "#000"
+  const style = { color: color}
+
+  return(
+    <div className="app-component">
+      <h1 style={ style }>{ hour }</h1>
+      <h2 style={{backgroundColor: color, padding: 20}}>
+        BackgroundColor changed!
+      </h2>
+      </div>
+  )
 }
 
 export default App;
