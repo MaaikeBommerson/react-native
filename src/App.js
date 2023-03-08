@@ -1,22 +1,38 @@
-import Profile from './components/Profile.js'
+import { useEffect, useState } from 'react'
 
 const App = () => {
+    const [data, setData] = useState([])
+    const [isLoaded, setLoaded] = useState(false)
 
-  const person = {
-      id: 1, 
-      firstname: "John",
-      lastname: "Doe",
-      job: "Developer",
-      projects: [
-        { id: 1, name: "React Frontend Development" },
-        { id: 2, name: "UX / UI Design" },
-        { id: 1, name: "HR Program" },
-      ]
+    const fetchData = () => new Promise((resolve, reject) => {
+      fetch('https://api.dev-master.ninja/reactjs/slow/')
+      .then(response => response.json())
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => reject(err))
+    })
+
+    useEffect(() => {
+      fetchData()
+        .then(result => {
+            console.log({ chaining: result})
+            setData(result)
+            setLoaded(true)
+        })
+        .catch(err => {
+          // error handler
+        })
+    }, [])
+
+    const renderContent = () => {
+      return( isLoaded ? <h1>Loaded!</h1>
+            : <h2>Loading...</h2>)
     }
 
     return(
       <div>
-        <Profile person={ person } />  
+        {renderContent()}
       </div>
     )
 }
