@@ -1,49 +1,29 @@
 import { useEffect, useState } from 'react'
 
 const App = () => {
-    const [ email, setEmail ] = useState("")
-    const [err, setErr] = useState(false)
+    const [inputs, setInputs] = useState({});
 
-    const validateEmail = (input) => {
-      const validEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
-      setErr(!input.match(validEmail))
-      setEmail(input)
+    const handleChange = (event) => {
+      const name = event.target.name;
+      const value = event.target.value;
+      setInputs(values => ({...values, [name]: value}))
     }
 
-    const renderError = () => {
-      if(err) {
-        return(
-          <div>Not a valid email</div>
-        )
-      }
-    }
-
-    const submitData = () => {
-      alert("API Call made!")
-    }
-
-    const renderSave = () => {
-      if(!err && email !=="") {
-        const data = {
-          email: email
-        }
-
-      return(
-        <button onClick={() => submitData(data)}>
-          Save email
-        </button>
-        )
-      }
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log(inputs);
     }
 
     return(
-      <div>
-        <label>Email</label>
-        <input type='text' value={email}  
-                onChange={(e) => validateEmail(e.target.value)} />
-        {renderError()}
-        {renderSave()}
-      </div>
+        <form onSubmit={handleSubmit}>
+          <label>Enter your name:
+            <input type="text" name="username" value={inputs.username || ""} onChange={handleChange} />
+          </label>
+          <label>Enter your age:
+            <input type="number" name="age" value={inputs.age || ""} onChange={handleChange} />
+          </label>
+          <input type="Submit" />
+        </form>
     )
 }
 
