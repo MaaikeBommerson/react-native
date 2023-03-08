@@ -1,29 +1,25 @@
-import { useEffect, useState } from 'react'
+import {BrowserRouter, Routes, Route } from "react-router-dom"
+import Menu from "./views/Menu"
+import Home from "./views/Home"
+import Blog from "./views/Blog"
+import Contact from "./views/Contact"
+import Path from "./views/Path"
+
+import NotFound from "./views/NotFound"
 
 const App = () => {
-    const [inputs, setInputs] = useState({});
-
-    const handleChange = (event) => {
-      const name = event.target.name;
-      const value = event.target.value;
-      setInputs(values => ({...values, [name]: value}))
-    }
-
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      console.log(inputs);
-    }
-
     return(
-        <form onSubmit={handleSubmit}>
-          <label>Enter your name:
-            <input type="text" name="username" value={inputs.username || ""} onChange={handleChange} />
-          </label>
-          <label>Enter your age:
-            <input type="number" name="age" value={inputs.age || ""} onChange={handleChange} />
-          </label>
-          <input type="Submit" />
-        </form>
+       <BrowserRouter>
+          <Routes>
+           <Route path="/" element={<Menu />}>
+                <Route index element={<Home />} />
+                <Route path="blog" element={<Blog />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="/data/:slug/:id" element={<Path />} />
+                <Route path="*" element={<NotFound />} />
+            </Route>
+         </Routes>
+       </BrowserRouter>
     )
 }
 
