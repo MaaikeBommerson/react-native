@@ -14,16 +14,14 @@ const App = () => {
     })
 
     useEffect(() => {
-      fetchData()
-        .then(result => {
-            console.log({ chaining: result})
-            setData(result)
-            setLoaded(true)
-        })
-        .catch(err => {
-          // error handler
-        })
-    }, [])
+        const fetch = async() => {
+          let result = await fetchData().catch(err => console.log(err))
+          setData(result)
+          setLoaded(true)
+        }
+
+        fetch()
+      }, [])
 
     const renderContent = () => {
       return( isLoaded ? <h1>Loaded!</h1>
