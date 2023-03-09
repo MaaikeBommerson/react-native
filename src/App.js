@@ -1,29 +1,30 @@
-import {useState, useCallback} from "react";
-import Customers from "./components/Customers";
+import {useState} from "react"
+import FavoritesContext from './context/FavoritesContext'
+import AddFavorite from './components/AddFavorite'
+import ShowFavorites from './components/ShowFavorites'
 
 const App = () => {
-
-  const [count, setCount] = useState(2)
-  const [customers, setCustomers] = useState(["Customer #1"]);
-  const [unrelatedCount, setUnrelatedCount] = useState(0)
-
-  const addCustomer = useCallback(() => {
-      setCustomers((c) => [...c, `Customer #${count}`])
-      setCount( c => c + 1)
-  }, [customers])
-
-  const unrelated = () => {
-    setUnrelatedCount( (c)=> c+1)
+  const [favorites, setFavorites] = useState(["one", "two"])
+  const addFavorites = (fav) => {
+    setFavorites(favs => [...favs, fav])
   }
 
   return (
-      <div className="App">
-          <h1>Use Callback</h1>
-          <button onClick={ () => unrelated() }>Unrelated!</button>
-          <h3>Unrelated: { unrelatedCount }</h3>
-          <Customers customers={customers} addCustomer={addCustomer}/>
-      </div>
-  );
+    <FavoritesContext.Provider value={{favorites, addFavorites}}>
+      <h2>Favorites</h2>
+      <ul>
+        {
+          favorites.map((item, index) => {
+            return(
+              <li key={index.toString()}>{item}</li>
+            )
+          })
+        }
+      </ul>
+      <AddFavorite />
+      <ShowFavorites />
+    </FavoritesContext.Provider>
+  )
 }
 
 export default App;
