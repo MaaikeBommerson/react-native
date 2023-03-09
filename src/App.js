@@ -1,29 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const App = () => {
-    const person = {
-      id: 1,
-      firstname: "John",
-      lastname: "Doe",
-      job: "Developer"
-    }
+    const [count, setCount] = useState(0)
+    const [updateCount, setUpdate] = useState(false)
 
-    const [employee, setEmployee] = useState(person)
-
-    const updateEmployee = ({firstname}) => {
-      setEmployee(prev => ({... prev, firstname}) )
-      console.log(employee)
-    }
+    useEffect(() => {
+      setTimeout(() => {
+        setCount((count) => count + 1)
+      }, 1000)
+    }, [updateCount])
 
     return(
-       <>
-       <h1>{`${employee.firstname} ${employee.lastname}`}</h1>
-       <button 
-       type="button"
-       onClick={() => updateEmployee({firstname: "Bob"})}>
-        Set firstname to Bob!
-       </button>
-       </>
+      <div>
+      <h1> I've rendered {count} times!</h1>
+      <button onClick= {() => setUpdate(!updateCount)}>
+        Update
+      </button>
+      </div>
     )
 }
 
