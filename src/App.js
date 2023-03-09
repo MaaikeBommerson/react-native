@@ -1,34 +1,19 @@
-import { useState, useReducer} from 'react'
+import useFetch from './hooks/useFetch'
 
-const reducer = (state, action) => {
-  switch(action.type) {
-    case "increment": {
-        return({ count: state.count + action.payload.increment})
+const  App = () => {
+
+    const [data, isLoaded] = useFetch("https://api.dev-master.ninja/reactjs/slow/");
+
+    const renderContent = () => {
+        return( isLoaded ? <h1>Loaded!</h1>
+            : <h2>Loading...</h2> )
     }
-    case "decrement": {
-      return({ count: state.count - action.payload.decrement})
-    }
-    default: return(state)
-  }
+    return(
+        <div>
+            { renderContent() }
+        </div>
+    )
 }
 
-const App = () => {
-  const initialState = {count: 0}
-  const [state, dispatch] = useReducer(reducer, initialState)
+export default App
 
-  return (
-   <div>
-      <h3>state: {state.count}</h3>
-      <code style={{margin: 40}}>
-        {JSON.stringify(state)}
-      </code>
-      <div style={{padding:40}}>
-          <button onClick={() => dispatch({type: "increment", payload: {increment: 100}})}>Plus</button>
-          <button onClick={() => dispatch({type: "decrement", payload: {decrement: 50}})}>Min</button>
-
-      </div>
-   </div>
-  )
-}
-
-export default App;
