@@ -1,29 +1,33 @@
-import {useState} from "react"
-import FavoritesContext from './context/FavoritesContext'
-import AddFavorite from './components/AddFavorite'
-import ShowFavorites from './components/ShowFavorites'
+import { useState, useReducer} from 'react'
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case "increment": {
+        return({ count: state.count + action.payload.increment})
+    }
+    case "decrement": {
+      return({ count: state.count - action.payload.decrement})
+    }
+    default: return(state)
+  }
+}
 
 const App = () => {
-  const [favorites, setFavorites] = useState(["one", "two"])
-  const addFavorites = (fav) => {
-    setFavorites(favs => [...favs, fav])
-  }
+  const initialState = {count: 0}
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <FavoritesContext.Provider value={{favorites, addFavorites}}>
-      <h2>Favorites</h2>
-      <ul>
-        {
-          favorites.map((item, index) => {
-            return(
-              <li key={index.toString()}>{item}</li>
-            )
-          })
-        }
-      </ul>
-      <AddFavorite />
-      <ShowFavorites />
-    </FavoritesContext.Provider>
+   <div>
+      <h3>state: {state.count}</h3>
+      <code style={{margin: 40}}>
+        {JSON.stringify(state)}
+      </code>
+      <div style={{padding:40}}>
+          <button onClick={() => dispatch({type: "increment", payload: {increment: 100}})}>Plus</button>
+          <button onClick={() => dispatch({type: "decrement", payload: {decrement: 50}})}>Min</button>
+
+      </div>
+   </div>
   )
 }
 
