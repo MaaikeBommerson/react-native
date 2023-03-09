@@ -1,23 +1,29 @@
-import { useState, useEffect } from 'react'
+import {useState, useCallback} from "react";
+import Customers from "./components/Customers";
 
 const App = () => {
-    const [count, setCount] = useState(0)
-    const [updateCount, setUpdate] = useState(false)
 
-    useEffect(() => {
-      setTimeout(() => {
-        setCount((count) => count + 1)
-      }, 1000)
-    }, [updateCount])
+  const [count, setCount] = useState(2)
+  const [customers, setCustomers] = useState(["Customer #1"]);
+  const [unrelatedCount, setUnrelatedCount] = useState(0)
 
-    return(
-      <div>
-      <h1> I've rendered {count} times!</h1>
-      <button onClick= {() => setUpdate(!updateCount)}>
-        Update
-      </button>
+  const addCustomer = useCallback(() => {
+      setCustomers((c) => [...c, `Customer #${count}`])
+      setCount( c => c + 1)
+  }, [customers])
+
+  const unrelated = () => {
+    setUnrelatedCount( (c)=> c+1)
+  }
+
+  return (
+      <div className="App">
+          <h1>Use Callback</h1>
+          <button onClick={ () => unrelated() }>Unrelated!</button>
+          <h3>Unrelated: { unrelatedCount }</h3>
+          <Customers customers={customers} addCustomer={addCustomer}/>
       </div>
-    )
+  );
 }
 
-export default App
+export default App;
